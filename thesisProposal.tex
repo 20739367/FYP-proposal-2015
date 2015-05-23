@@ -14,16 +14,22 @@
 \author{Richard Allen}
 
 \begin{document}
-\maketitle
 
-\section{Abstract}
+\input{./titlepage.tex}
+%\maketitle
+
+\begin{abstract}
 This report outlines a study into adapting an unmanned aerial vehicle for autonomous control. The main focus of study is in achieving 3D environmental awareness through computer vision. 
+\end{abstract}
+
+\tableofcontents
+\newpage
 
 \section{Introduction}
 	\subsection{Motovation}
-Unmanned aerial vehicles are at the forefront of human-robot interaction. There is undergoing an explosion in the popularity of commercial products and hobbyist projects.
+Unmanned aerial vehicles are at the forefront of human-robot interaction. There is an explosion undergoing in the popularity of commercial products and hobbyist projects.
 \\The uses to which UAVs are being put to use are highly diverse. 
-\\They are seeing use in search-and-rescue for locating lost survivors in the outback challenge ~\cite{canberrauav-2012}, and as ``lifeguards''; delivering flotation devices to endangered swimmers~\cite{Motherboard}.
+\\They are seeing use in search-and-rescue for locating lost survivors in the Outback Challenge ~\cite{canberrauav-2012}, and as ``lifeguards'': delivering flotation devices to endangered swimmers~\cite{Motherboard}.
 \\They are becoming an inexpensive and popular option for scientific study requiring aerial surveillance and data capture, such use in grazing management analysis in agriculture~\cite{UWAnews}.
 \\They are being used as tools for film and photography, both in aerial photography and in use as tracking cameras. 
 \\Products such as Lily ~\cite{Lily} provide ease-of-use by always flying autonomously, requiring no piloting expertise. For autonomous drones to work in a human environment on human terms, a number of challenges must be met. In order to match the needs of these arising demands, drones will need better environmental awareness and adaptiveness than ever before.
@@ -67,6 +73,13 @@ During the early weeks of flight testing several hard landings occurred, largely
 		\subsubsection{Camera gimbal}
 The tilt servo of the camera gimbal was affixed only through friction. Several times the vibrations from flight caused it to come loose, leaving the camera to dangle from its connecting wires. The tilt server ceased working and was replaced, and the gimbal was modified for the servo to be fixed to it with a screw.
 
+\begin{figure}%[h!]
+		\includegraphics[width=0.8\textwidth]{cameraGimbal.JPG}
+		\centering
+		\caption{The camera and Gimbal}
+	\end{figure}
+	
+
 		\subsubsection{NAZA gps}
 The Naza GPS unit, being a closed source device a proprietary protocol, was not connected to the raspberry pi, which instead used the Qstarz GPS. This arrangement presented some disadvantages: the flight computer and the Raspberry Pi were receiving conflicting data about the drone’s location, the Qstarz GPS’ accuracy gave poor results on the range of motion the drone was being tested on, and the addition of unnecessary weight, complexity, and power draw.
 
@@ -84,8 +97,7 @@ The flight computer was replaced with the newer, more powerful Raspberry Pi 2. T
 
 		\subsubsection{Replacement of flight computer}
 The closed nature of the NAZA flight computer presented considerable barriers to modification. The team felt a strong desire to have the project contribute to the state of the art, and to the UAV user community. Moreover, a great deal of time had been lost throughout the semester due to problems with the wiring harness, switching circuits, and various hardware hacks that had been left as permanent fixes. Replacing the flight computer, which would require an overhaul of the wiring harness, would present an opportunities to ensure the project relevence and reliability.
-Open source, community-driven flight computer alternatives were researched. Eventually the Ardupilot Pixhawk was settled on as providing the most capability and support, as well as requiring the least work to replace the NAZA. The NAZA, GPS, wiring harness and switching circuit were all replaced.
-
+\\Open source, community-driven flight computer alternatives were researched. Eventually the Ardupilot Pixhawk was settled on as providing the most capability and support, as well as requiring the least work to replace the NAZA. The NAZA, GPS, wiring harness and switching circuit were all replaced.
 
 
 	\subsection{Automation software}
@@ -219,10 +231,25 @@ The automated learning was less successful. Focussing on an object in-flight pro
 	Simultaneous Localisation and Mapping (SLAM) is the concept of (autonomously) constructing a map of the environment while simultaneously using that map to navigate the same environment. 
 	\\All means of inferring position from movement sensors, such as odometry or inertial measurement, are imperfect. As a robot traverses an environment, these errors compound. To accurately traverse an environment, a robot must have a way to correct its estimation of its own position. In the case of SLAM, this is done by observation of the environment. Feature detection is used to recognise landmarks which are used to triangulate position~\cite{Blas}.
 	\\A basic example of a SLAM process is illustrated below. 
-	\\1: The robot is represented by a triangle. It has observed the position of three landmarks in the environment.
-	2: The robot executes a movement. It makes an estimation of its location based on its movement sensors.
-	3: The robot predicts the changed relative locations of the landmarks. It compares its predictions with its new observations
-	4: Based on its observations, the robot infers its actual position and corrects it.
+	
+	\begin{figure}[h!]
+		\includegraphics[width=0.8\textwidth]{SLAM.png}
+		\centering
+		\caption{A simple SLAM illustration}
+	\end{figure}
+	
+	\begin{enumerate}
+  		 
+  		\item The robot is represented by a triangle. It has observed the position of three landmarks in the environment.
+  		
+  		\item The robot executes a movement. It makes an estimation of its location based on its movement sensors.
+  		
+  		\item The robot predicts the changed relative locations of the landmarks. It compares its predictions with its new observations
+  		
+  		\item Based on its observations, the robot infers its actual position and corrects it.
+  		\end{enumerate}
+	
+
 	
 		\subsubsection{SLAM hardware}
 		To perform SLAM, a robot must have the ability to sense its movement. In wheeled ground robots this is usually odometry. In UAVs this is usually the inertial measurement unit. The IMU measures accelleration, which must be integrated twice to get position~\cite{kim2007real}.
